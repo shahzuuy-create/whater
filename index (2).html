@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Whater — Pure packaged drinking water by Furat Beverages, Nagpur. FSSAI certified, multi-stage filtered, sealed fresh."/>
+  <meta property="og:title" content="Whater — Pure. Raw. Essential."/>
+  <meta property="og:description" content="Premium packaged drinking water crafted with science-backed purity."/>
+  <title>Whater™ — Pure. Raw. Essential.</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ============================================================
+       RESET & TOKENS
+    ============================================================ */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --ink:        #05080a;
+      --paper:      #f2efe9;
+      --water:      #c8dfee;
+      --water-dark: #4a7fa0;
+      --mist:       #8a9baa;
+      --line:       rgba(200,223,238,.15);
+      --white:      #ffffff;
+      --easing:     cubic-bezier(.22,.68,0,1.2);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: none; border: none; background: none; font: inherit; color: inherit; }
+
+    /* ============================================================
+       CUSTOM CURSOR
+    ============================================================ */
+    #cursor-dot {
+      position: fixed; width:8px; height:8px;
+      background: var(--water); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .1s, width .3s, height .3s, background .3s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed; width:36px; height:36px;
+      border: 1px solid rgba(200,223,238,.5);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+    }
+    body.cursor-hover #cursor-dot { width:56px; height:56px; background: rgba(200,223,238,.15); }
+    body.cursor-hover #cursor-ring { opacity:0; }
+
+    /* ============================================================
+       NOISE GRAIN
+    ============================================================ */
+    #grain {
+      position: fixed; inset:-50%; width:200%; height:200%;
+      pointer-events: none; z-index: 9990; opacity:.03;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: grainAnim .4s steps(2) infinite;
+    }
+    @keyframes grainAnim {
+      0%   { transform: translate(0,0); }
+      25%  { transform: translate(-1%,-2%); }
+      50%  { transform: translate(2%,1%); }
+      75%  { transform: translate(-2%,2%); }
+      100% { transform: translate(1%,-1%); }
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #nav {
+      position: fixed; top:0; left:0; width:100%; z-index:500;
+      padding: 24px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s, padding .4s, backdrop-filter .4s;
+    }
+    #nav.scrolled {
+      background: rgba(5,8,10,.85);
+      backdrop-filter: blur(20px);
+      padding: 16px 60px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px; letter-spacing:.14em;
+      color: var(--paper);
+    }
+    .nav-logo sup {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px; letter-spacing:.1em;
+      vertical-align: super; opacity:.5;
+    }
+
+    .nav-menu {
+      display: flex; align-items: center; gap:40px; list-style: none;
+    }
+    .nav-menu a {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; letter-spacing:.18em; text-transform: uppercase;
+      color: var(--mist);
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-menu a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:1px; background:var(--water);
+      transition: width .3s var(--easing);
+    }
+    .nav-menu a:hover { color: var(--water); }
+    .nav-menu a:hover::after { width:100%; }
+
+    .nav-cta {
+      padding: 10px 28px;
+      border: 1px solid rgba(200,223,238,.35);
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; letter-spacing:.18em; text-transform: uppercase;
+      color: var(--paper);
+      transition: all .3s;
+      position: relative; overflow: hidden;
+    }
+    .nav-cta::before {
+      content:''; position:absolute; inset:0;
+      background: var(--water);
+      transform: translateY(101%);
+      transition: transform .35s var(--easing);
+    }
+    .nav-cta span { position:relative; z-index:1; }
+    .nav-cta:hover { color: var(--ink); border-color: var(--water); }
+    .nav-cta:hover::before { transform: translateY(0); }
+
+    /* Mobile hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap:5px;
+      width:28px; padding:4px 0;
+    }
+    .hamburger span {
+      display:block; height:1px; background:var(--paper);
+      transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    #mobile-drawer {
+      position:fixed; top:0; right:0; width:80%; max-width:340px; height:100vh;
+      background: rgba(5,8,10,.97); backdrop-filter:blur(24px);
+      z-index:490; transform:translateX(100%); transition:transform .5s var(--easing);
+      padding:100px 48px 60px;
+      display:flex; flex-direction:column; gap:32px;
+    }
+    #mobile-drawer.open { transform:translateX(0); }
+    #mobile-drawer a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size:40px; letter-spacing:.06em;
+      color:var(--paper); opacity:.7; transition:opacity .2s;
+    }
+    #mobile-drawer a:hover { opacity:1; }
+    #mobile-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,.5);
+      z-index:480; opacity:0; pointer-events:none; transition:opacity .4s;
+    }
+    #mobile-overlay.open { opacity:1; pointer-events:all; }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      position:relative; min-height:100vh;
+      display:grid; grid-template-columns:1fr 1fr;
+      align-items:center; overflow:hidden;
+    }
+
+    /* Background */
+    .hero-bg {
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse 70% 90% at 65% 55%, #0d2030 0%, #050a0f 55%, var(--ink) 100%);
+    }
+
+    /* Grid lines decoration */
+    .hero-grid {
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 70% 80% at 65% 50%, black 20%, transparent 80%);
+    }
+
+    /* Left copy */
+    .hero-copy {
+      position:relative; z-index:10;
+      padding: 160px 60px 120px;
+    }
+    .hero-eyebrow {
+      display:inline-flex; align-items:center; gap:12px;
+      font-family:'Space Mono',monospace; font-size:9px;
+      letter-spacing:.3em; text-transform:uppercase;
+      color: var(--water); opacity:.7;
+      margin-bottom:32px;
+    }
+    .hero-eyebrow::before {
+      content:''; display:block;
+      width:32px; height:1px; background:var(--water);
+    }
+
+    .hero-h1 {
+      font-family:'Bebas Neue',sans-serif;
+      font-size: clamp(76px, 9vw, 140px);
+      line-height:.9; letter-spacing:.02em;
+      margin-bottom:12px;
+    }
+    .hero-h1 .line-accent {
+      color:transparent;
+      -webkit-text-stroke: 1.5px var(--water);
+    }
+
+    .hero-sub {
+      font-family:'Cormorant Garamond',serif;
+      font-size: clamp(17px, 1.6vw, 22px);
+      font-style:italic; font-weight:300;
+      color:var(--mist); line-height:1.7;
+      max-width:380px; margin:28px 0 48px;
+    }
+
+    .hero-actions { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+
+    .btn-primary {
+      display:inline-flex; align-items:center; gap:10px;
+      padding:16px 40px;
+      background: var(--water);
+      color: var(--ink);
+      font-family:'Space Mono',monospace;
+      font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      font-weight:700;
+      transition:all .3s; position:relative; overflow:hidden;
+    }
+    .btn-primary::before {
+      content:''; position:absolute; inset:0;
+      background:var(--water-dark);
+      transform:translateY(101%); transition:transform .3s var(--easing);
+    }
+    .btn-primary span,.btn-primary svg { position:relative;z-index:1; }
+    .btn-primary:hover::before { transform:translateY(0); }
+    .btn-primary:hover { color:var(--white); }
+
+    .btn-ghost {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:16px 32px;
+      border:1px solid rgba(200,223,238,.25);
+      font-family:'Space Mono',monospace;
+      font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--mist); transition:all .3s;
+    }
+    .btn-ghost:hover { border-color:var(--water); color:var(--water); }
+
+    /* Hero bottle */
+    .hero-visual {
+      position:relative; z-index:10;
+      display:flex; justify-content:center; align-items:flex-end;
+      padding-bottom:0; height:100vh;
+    }
+    .bottle-stage {
+      position:relative;
+      animation: heroFloat 7s ease-in-out infinite;
+    }
+    @keyframes heroFloat {
+      0%,100% { transform: translateY(0) rotateY(-3deg); }
+      50%      { transform: translateY(-22px) rotateY(3deg); }
+    }
+    .bottle-main-img {
+      height: 82vh; max-height:780px; width:auto;
+      filter: drop-shadow(0 60px 120px rgba(0,0,0,.9))
+              drop-shadow(0 0 80px rgba(200,223,238,.1));
+    }
+
+    /* Glow blob behind bottle */
+    .bottle-glow {
+      position:absolute; bottom:-40px; left:50%;
+      transform:translateX(-50%);
+      width:360px; height:100px;
+      background: radial-gradient(ellipse, rgba(200,223,238,.14) 0%, transparent 70%);
+      filter:blur(16px);
+    }
+
+    /* Floating badges */
+    .badge {
+      position:absolute;
+      background:rgba(5,8,10,.85); backdrop-filter:blur(12px);
+      border:1px solid var(--line);
+      padding:14px 18px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .badge-icon { font-size:22px; }
+    .badge-text { display:flex; flex-direction:column; gap:2px; }
+    .badge-label {
+      font-family:'Space Mono',monospace;
+      font-size:8px; letter-spacing:.15em; text-transform:uppercase; color:var(--mist);
+    }
+    .badge-value {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:18px; letter-spacing:.06em; color:var(--paper);
+    }
+    .badge-1 { top:22%; left:-40px; animation:badgeFloat1 5s ease-in-out infinite; }
+    .badge-2 { bottom:28%; right:-30px; animation:badgeFloat2 6s ease-in-out infinite; }
+    @keyframes badgeFloat1 {
+      0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)}
+    }
+    @keyframes badgeFloat2 {
+      0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)}
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position:absolute; bottom:40px; left:60px; z-index:20;
+      display:flex; align-items:center; gap:14px;
+    }
+    .scroll-hint-line {
+      width:48px; height:1px; background:var(--line);
+      position:relative; overflow:hidden;
+    }
+    .scroll-hint-line::after {
+      content:''; position:absolute; top:0; left:-100%;
+      width:100%; height:100%; background:var(--water);
+      animation:scanLine 2s ease-in-out infinite;
+    }
+    @keyframes scanLine {
+      0%{left:-100%} 100%{left:100%}
+    }
+    .scroll-hint span {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--mist);
+    }
+
+    /* Intro entrance animation */
+    .hero-copy > * { opacity:0; transform:translateY(30px); }
+    .anim-ready .hero-copy > *  {
+      animation: fadeUp .9s var(--easing) forwards;
+    }
+    .anim-ready .hero-eyebrow   { animation-delay:.1s; }
+    .anim-ready .hero-h1        { animation-delay:.25s; }
+    .anim-ready .hero-sub       { animation-delay:.4s; }
+    .anim-ready .hero-actions   { animation-delay:.55s; }
+    .anim-ready .hero-visual    { animation: fadeIn 1.4s ease .3s forwards; opacity:0; }
+    @keyframes fadeUp {
+      to { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeIn {
+      to { opacity:1; }
+    }
+
+    /* Water ripple (hero bottom) */
+    .ripples {
+      position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:800px; height:80px; pointer-events:none;
+    }
+    .rpl {
+      position:absolute; left:50%; top:50%;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      border:1px solid rgba(200,223,238,.12);
+      animation:rplExpand 5s ease-out infinite;
+    }
+    .rpl:nth-child(1){width:80px;height:20px;animation-delay:0s}
+    .rpl:nth-child(2){width:200px;height:40px;animation-delay:.9s}
+    .rpl:nth-child(3){width:380px;height:60px;animation-delay:1.8s}
+    .rpl:nth-child(4){width:600px;height:78px;animation-delay:2.7s}
+    @keyframes rplExpand {
+      0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}
+      25%{opacity:.8}
+      100%{opacity:0;transform:translate(-50%,-50%) scale(1)}
+    }
+
+    /* ============================================================
+       TICKER STRIP
+    ============================================================ */
+    .ticker {
+      background: var(--water);
+      padding:12px 0; overflow:hidden;
+      border-top:1px solid rgba(0,0,0,.1);
+      border-bottom:1px solid rgba(0,0,0,.1);
+    }
+    .ticker-track {
+      display:flex; gap:0;
+      animation: tickerScroll 22s linear infinite;
+      white-space:nowrap;
+    }
+    .ticker-item {
+      display:inline-flex; align-items:center; gap:24px;
+      padding:0 40px;
+      font-family:'Bebas Neue',sans-serif;
+      font-size:16px; letter-spacing:.12em;
+      color:var(--ink);
+    }
+    .ticker-dot { width:5px;height:5px;background:var(--ink);border-radius:50%;opacity:.4; }
+    @keyframes tickerScroll {
+      0%{transform:translateX(0)} 100%{transform:translateX(-50%)}
+    }
+
+    /* ============================================================
+       SECTION COMMON
+    ============================================================ */
+    .section-label {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.28em; text-transform:uppercase;
+      color:var(--water); opacity:.65;
+      display:inline-flex; align-items:center; gap:10px;
+      margin-bottom:20px;
+    }
+    .section-label::before {
+      content:''; display:block;
+      width:24px; height:1px; background:var(--water);
+    }
+
+    .section-h2 {
+      font-family:'Bebas Neue',sans-serif;
+      font-size: clamp(48px,5.5vw,88px);
+      line-height:.95; letter-spacing:.02em;
+    }
+
+    /* ============================================================
+       ABOUT / BRAND STORY
+    ============================================================ */
+    #about {
+      padding:140px 60px;
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:100px; align-items:center;
+      max-width:1400px; margin:0 auto;
+    }
+
+    .about-number {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:200px; line-height:1;
+      color:transparent;
+      -webkit-text-stroke:1px rgba(200,223,238,.1);
+      user-select:none; margin-bottom:-30px;
+    }
+    .about-body p {
+      font-size:15px; line-height:1.9;
+      color:var(--mist); font-weight:300;
+      margin-bottom:18px;
+    }
+    .about-body p:last-child { margin-bottom:0; }
+    em.wt { font-style:normal; color:var(--water); }
+
+    .about-sig {
+      margin-top:48px;
+      display:flex; align-items:center; gap:20px;
+    }
+    .about-sig-line { width:50px; height:1px; background:var(--line); }
+    .about-sig-text {
+      font-family:'Cormorant Garamond',serif;
+      font-style:italic; font-size:15px; color:var(--mist);
+    }
+
+    /* ============================================================
+       FEATURES
+    ============================================================ */
+    #features {
+      padding:0 0 0;
+      background: var(--ink);
+    }
+    .features-header {
+      padding:80px 60px 60px;
+      max-width:1400px; margin:0 auto;
+      display:flex; justify-content:space-between; align-items:flex-end;
+    }
+    .features-header .section-h2 { max-width:520px; }
+    .features-header p {
+      font-size:14px; line-height:1.8;
+      color:var(--mist); max-width:320px;
+    }
+
+    .features-grid {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:1px; border-top:1px solid #111;
+    }
+    .feat-card {
+      padding:52px 40px;
+      background:#080c0f;
+      transition:background .4s;
+      position:relative; overflow:hidden;
+    }
+    .feat-card::after {
+      content:''; position:absolute;
+      top:0; left:0; width:100%; height:2px;
+      background: linear-gradient(90deg, transparent, var(--water), transparent);
+      transform:translateX(-100%);
+      transition:transform .6s ease;
+    }
+    .feat-card:hover { background:#0c1217; }
+    .feat-card:hover::after { transform:translateX(0); }
+
+    .feat-num {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:11px; letter-spacing:.2em;
+      color:var(--water); opacity:.4;
+      margin-bottom:32px;
+    }
+    .feat-icon {
+      font-size:36px; margin-bottom:24px; display:block;
+      transition:transform .3s var(--easing);
+    }
+    .feat-card:hover .feat-icon { transform:scale(1.15) translateY(-4px); }
+    .feat-title {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:30px; letter-spacing:.04em;
+      color:var(--paper); margin-bottom:14px;
+    }
+    .feat-desc {
+      font-size:13px; line-height:1.75;
+      color:var(--mist); font-weight:300;
+    }
+
+    /* ============================================================
+       PRODUCT LINEUP
+    ============================================================ */
+    #products {
+      padding:140px 60px;
+      text-align:center;
+      position:relative; overflow:hidden;
+    }
+    .products-bg {
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse 60% 70% at 50% 50%, #0a1c29 0%, transparent 70%);
+    }
+
+    .products-header { position:relative; z-index:2; margin-bottom:80px; }
+    .products-header .section-h2 { margin-bottom:16px; }
+    .products-header p {
+      font-size:14px; color:var(--mist);
+      font-family:'Cormorant Garamond',serif;
+      font-style:italic; font-size:18px;
+    }
+
+    .product-tabs {
+      display:flex; justify-content:center; gap:2px;
+      margin-bottom:72px; position:relative; z-index:2;
+    }
+    .ptab {
+      padding:10px 28px;
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--mist); border:1px solid #111;
+      transition:all .3s; cursor:none;
+    }
+    .ptab.active,
+    .ptab:hover { background:var(--water); color:var(--ink); border-color:var(--water); }
+
+    .lineup {
+      display:flex; justify-content:center; align-items:flex-end;
+      gap:0; position:relative; z-index:2;
+    }
+    .lineup-item {
+      display:flex; flex-direction:column; align-items:center;
+      padding:0 28px; cursor:none;
+      transition:transform .4s var(--easing);
+      position:relative;
+    }
+    .lineup-item:hover { transform:translateY(-20px); }
+    .lineup-item.featured { transform:translateY(-10px); }
+    .lineup-item.featured:hover { transform:translateY(-28px); }
+
+    .lineup-img {
+      transition:filter .4s;
+      filter:drop-shadow(0 20px 40px rgba(0,0,0,.8));
+    }
+    .lineup-item:hover .lineup-img,
+    .lineup-item.featured .lineup-img {
+      filter:drop-shadow(0 30px 60px rgba(200,223,238,.18));
+    }
+
+    .lineup-tag {
+      margin-top:24px;
+      font-family:'Bebas Neue',sans-serif;
+      font-size:26px; letter-spacing:.08em; color:var(--water);
+    }
+    .lineup-name {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.15em; text-transform:uppercase;
+      color:var(--mist); margin-top:4px;
+    }
+    .lineup-badge-featured {
+      position:absolute; top:-12px;
+      background:var(--water); color:var(--ink);
+      font-family:'Space Mono',monospace;
+      font-size:7px; letter-spacing:.2em; text-transform:uppercase;
+      padding:4px 10px; font-weight:700;
+    }
+
+    /* ============================================================
+       PURITY / STATS
+    ============================================================ */
+    #purity {
+      background:#040709;
+      border-top:1px solid #0f141a;
+      border-bottom:1px solid #0f141a;
+    }
+    .purity-inner {
+      max-width:1400px; margin:0 auto;
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:0;
+    }
+    .purity-left {
+      padding:120px 80px 120px 60px;
+      border-right:1px solid #0f141a;
+    }
+    .purity-left .section-h2 { margin-bottom:28px; }
+    .purity-left .section-h2 span { color:var(--water); }
+    .purity-left p {
+      font-size:15px; line-height:1.85;
+      color:var(--mist); font-weight:300; margin-bottom:16px;
+      max-width:420px;
+    }
+
+    .cert-row {
+      display:flex; gap:16px; margin-top:48px; flex-wrap:wrap;
+    }
+    .cert-pill {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 18px;
+      border:1px solid rgba(200,223,238,.2);
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--water);
+    }
+
+    .purity-right {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:1px; background:#0f141a;
+    }
+    .stat-cell {
+      background:#040709;
+      padding:52px 44px;
+      transition:background .3s;
+      position:relative; overflow:hidden;
+    }
+    .stat-cell:hover { background:#080c10; }
+    .stat-cell::before {
+      content:''; position:absolute; bottom:0; left:0;
+      width:0; height:1px; background:var(--water);
+      transition:width .5s ease;
+    }
+    .stat-cell:hover::before { width:100%; }
+    .stat-n {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:72px; line-height:1; color:var(--water);
+    }
+    .stat-unit {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:28px; color:rgba(200,223,238,.35);
+    }
+    .stat-lbl {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--mist); margin-top:10px;
+    }
+
+    /* ============================================================
+       PROCESS TIMELINE
+    ============================================================ */
+    #process {
+      padding:140px 60px;
+      max-width:1400px; margin:0 auto;
+    }
+    .process-header { margin-bottom:80px; }
+
+    .timeline {
+      display:grid; grid-template-columns:repeat(5,1fr);
+      position:relative; gap:0;
+    }
+    .timeline::before {
+      content:''; position:absolute;
+      top:28px; left:10%; right:10%; height:1px;
+      background: linear-gradient(90deg, transparent, var(--line) 15%, var(--line) 85%, transparent);
+    }
+    .tl-step {
+      display:flex; flex-direction:column; align-items:center;
+      text-align:center; padding:0 16px;
+      position:relative;
+    }
+    .tl-num {
+      width:56px; height:56px;
+      border:1px solid rgba(200,223,238,.2);
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-family:'Bebas Neue',sans-serif; font-size:22px;
+      color:var(--water); background:var(--ink);
+      margin-bottom:32px; position:relative; z-index:2;
+      transition:all .3s;
+    }
+    .tl-step:hover .tl-num {
+      background:var(--water); color:var(--ink);
+      border-color:var(--water);
+    }
+    .tl-title {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:20px; letter-spacing:.06em;
+      color:var(--paper); margin-bottom:10px;
+    }
+    .tl-desc {
+      font-size:12px; line-height:1.7;
+      color:var(--mist);
+    }
+
+    /* ============================================================
+       MANIFESTO / CTA BANNER
+    ============================================================ */
+    #manifesto {
+      background: var(--paper);
+      color: var(--ink);
+      padding:160px 60px;
+      text-align:center;
+      position:relative; overflow:hidden;
+    }
+    .manifesto-watermark {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      font-family:'Bebas Neue',sans-serif;
+      font-size:32vw; line-height:1;
+      color:transparent;
+      -webkit-text-stroke:1px rgba(0,0,0,.04);
+      white-space:nowrap; user-select:none;
+      pointer-events:none;
+    }
+    .manifesto-inner { position:relative; z-index:2; max-width:900px; margin:0 auto; }
+    .manifesto-label {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.28em; text-transform:uppercase;
+      color:#4a7fa0; margin-bottom:28px;
+    }
+    .manifesto-headline {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:clamp(52px,7vw,110px);
+      line-height:.92; letter-spacing:.02em;
+      color:var(--ink); margin-bottom:32px;
+    }
+    .manifesto-headline em {
+      font-style:normal; color:#4a7fa0;
+    }
+    .manifesto-body {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(17px,1.8vw,22px);
+      font-style:italic; font-weight:300;
+      color:#666; line-height:1.8;
+      max-width:620px; margin:0 auto 56px;
+    }
+    .manifesto-actions { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+
+    .btn-dark {
+      display:inline-flex; align-items:center; gap:10px;
+      padding:18px 48px;
+      background:var(--ink); color:var(--paper);
+      font-family:'Space Mono',monospace;
+      font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      transition:all .3s; position:relative; overflow:hidden;
+    }
+    .btn-dark::before {
+      content:''; position:absolute; inset:0;
+      background:#1a2530; transform:translateY(101%);
+      transition:transform .3s var(--easing);
+    }
+    .btn-dark span { position:relative;z-index:1; }
+    .btn-dark:hover::before { transform:translateY(0); }
+
+    .btn-outline-dark {
+      display:inline-flex; align-items:center; gap:10px;
+      padding:18px 40px;
+      border:1px solid rgba(0,0,0,.25);
+      color:var(--ink);
+      font-family:'Space Mono',monospace;
+      font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+      transition:all .3s;
+    }
+    .btn-outline-dark:hover { border-color:var(--ink); background:rgba(0,0,0,.05); }
+
+    /* ============================================================
+       CONTACT / INFO STRIP
+    ============================================================ */
+    #contact {
+      padding:80px 60px;
+      border-top:1px solid #0f141a;
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:1px; background:#0f141a;
+      max-width:none;
+    }
+    .contact-cell {
+      background:var(--ink);
+      padding:52px 52px;
+    }
+    .contact-cell-label {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.22em; text-transform:uppercase;
+      color:var(--mist); margin-bottom:20px;
+    }
+    .contact-cell-value {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:22px; letter-spacing:.06em; color:var(--paper);
+      line-height:1.4;
+    }
+    .contact-cell-value a { transition:color .2s; }
+    .contact-cell-value a:hover { color:var(--water); }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      padding:40px 60px;
+      border-top:1px solid #0f141a;
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:20px;
+    }
+    .footer-logo {
+      font-family:'Bebas Neue',sans-serif;
+      font-size:24px; letter-spacing:.14em; color:var(--mist);
+    }
+    .footer-copy {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.12em; color:#2a3540;
+      text-align:center;
+    }
+    .footer-links {
+      display:flex; gap:28px; list-style:none;
+    }
+    .footer-links a {
+      font-family:'Space Mono',monospace;
+      font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+      color:#2a3540; transition:color .2s;
+    }
+    .footer-links a:hover { color:var(--mist); }
+
+    /* ============================================================
+       SCROLL REVEAL
+    ============================================================ */
+    .sr {
+      opacity:0; transform:translateY(44px);
+      transition: opacity .85s ease, transform .85s ease;
+    }
+    .sr.sl { transform:translateX(-44px); }
+    .sr.sr2 { transform:translateX(44px); }
+    .sr.visible { opacity:1; transform:translate(0,0); }
+    .sr[data-delay="1"] { transition-delay:.1s; }
+    .sr[data-delay="2"] { transition-delay:.2s; }
+    .sr[data-delay="3"] { transition-delay:.3s; }
+    .sr[data-delay="4"] { transition-delay:.4s; }
+    .sr[data-delay="5"] { transition-delay:.5s; }
+
+    /* ============================================================
+       HORIZONTAL SCROLL PROGRESS BAR
+    ============================================================ */
+    #progress {
+      position:fixed; top:0; left:0; height:2px;
+      background: linear-gradient(90deg, var(--water-dark), var(--water));
+      z-index:600; width:0%;
+      transition:width .05s linear;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media(max-width:1100px) {
+      #hero { grid-template-columns:1fr; }
+      .hero-copy { padding:160px 40px 60px; }
+      .hero-visual { height:60vh; }
+      .bottle-main-img { height:55vh; }
+      .badge-1,.badge-2 { display:none; }
+      #about { grid-template-columns:1fr; gap:48px; padding:100px 40px; }
+      .about-number { font-size:100px; }
+      .features-grid { grid-template-columns:1fr 1fr; }
+      .purity-inner { grid-template-columns:1fr; }
+      .purity-left { border-right:none; border-bottom:1px solid #0f141a; padding:80px 40px; }
+      .purity-right { grid-template-columns:1fr 1fr; }
+      .timeline { grid-template-columns:1fr 1fr; gap:48px; }
+      .timeline::before { display:none; }
+      #contact { grid-template-columns:1fr; }
+      .features-header { flex-direction:column; align-items:flex-start; gap:20px; }
+      .lineup { flex-wrap:wrap; }
+    }
+    @media(max-width:768px) {
+      #nav { padding:20px 24px; }
+      #nav.scrolled { padding:14px 24px; }
+      .nav-menu,.nav-cta { display:none; }
+      .hamburger { display:flex; }
+      .hero-copy { padding:130px 24px 60px; }
+      .hero-visual { padding:20px 0; height:auto; }
+      .bottle-main-img { height:50vw; min-height:260px; }
+      section, #about, #process, #products { padding:80px 24px; }
+      #features .features-header { padding:60px 24px 40px; }
+      .features-grid { grid-template-columns:1fr; }
+      .feat-card { padding:40px 28px; }
+      .purity-left { padding:60px 24px; }
+      .stat-cell { padding:36px 28px; }
+      .timeline { grid-template-columns:1fr; gap:40px; }
+      #manifesto { padding:100px 24px; }
+      footer { padding:28px 24px; flex-direction:column; text-align:center; }
+      .footer-links { justify-content:center; }
+      .products-header,.product-tabs { padding:0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Grain overlay -->
+<div id="grain"></div>
+
+<!-- Scroll progress -->
+<div id="progress"></div>
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- ======================================================
+     NAVIGATION
+====================================================== -->
+<nav id="nav">
+  <a class="nav-logo" href="#">Whater<sup>™</sup></a>
+  <ul class="nav-menu">
+    <li><a href="#about">Story</a></li>
+    <li><a href="#features">Why Whater</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#purity">Purity</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#products"><span>Order Now</span></a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile drawer -->
+<div id="mobile-overlay"></div>
+<div id="mobile-drawer">
+  <a href="#about" class="mob-link">Story</a>
+  <a href="#features" class="mob-link">Why Whater</a>
+  <a href="#products" class="mob-link">Products</a>
+  <a href="#purity" class="mob-link">Purity</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- ======================================================
+     HERO
+====================================================== -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <!-- Left copy -->
+  <div class="hero-copy">
+    <div class="hero-eyebrow">FSSAI Certified &nbsp;·&nbsp; Nagpur, India</div>
+    <h1 class="hero-h1">
+      Pure<br/>
+      <span class="line-accent">Water.</span><br/>
+      Always.
+    </h1>
+    <p class="hero-sub">
+      Science-backed filtration. Tamper-evident sealing.
+      The cleanest packaged water — nothing added, nothing removed.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#products">
+        <span>Explore Products</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a class="btn-ghost" href="#purity">
+        <span>Our Purity Promise</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Right bottle visual -->
+  <div class="hero-visual">
+    <div class="bottle-stage">
+      <!-- Floating badges -->
+      <div class="badge badge-1">
+        <div class="badge-icon">💧</div>
+        <div class="badge-text">
+          <div class="badge-label">pH Balance</div>
+          <div class="badge-value">7.4</div>
+        </div>
+      </div>
+      <div class="badge badge-2">
+        <div class="badge-icon">✅</div>
+        <div class="badge-text">
+          <div class="badge-label">Certified</div>
+          <div class="badge-value">FSSAI</div>
+        </div>
+      </div>
+
+      <img class="bottle-main-img" src="8704.jpg" alt="Whater 1000ml packaged drinking water"/>
+      <div class="bottle-glow"></div>
+    </div>
+  </div>
+
+  <!-- Ripples -->
+  <div class="ripples">
+    <div class="rpl"></div><div class="rpl"></div>
+    <div class="rpl"></div><div class="rpl"></div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <div class="scroll-hint-line"></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- ======================================================
+     TICKER
+====================================================== -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ======================================================
+     ABOUT
+====================================================== -->
+<section>
+<div id="about">
+  <div class="sr sl">
+    <div class="about-number">01</div>
+    <div class="section-label">Our Story</div>
+    <h2 class="section-h2">Crafted in<br/>Nagpur.<br/>Drunk<br/>Everywhere.</h2>
+    <div class="about-sig">
+      <div class="about-sig-line"></div>
+      <div class="about-sig-text">Furat Beverages &amp; Products</div>
+    </div>
+  </div>
+  <div class="about-body sr sr2">
+    <p>
+      <em class="wt">Whater</em> was born from a simple belief: everyone deserves access to water that's genuinely clean. Not just "treated" — but meticulously filtered, rigorously tested, and sealed with the care it deserves.
+    </p>
+    <p>
+      Manufactured at our facility in <em class="wt">Plot No. 3A, Gausiya Society, Ring Road, Nagpur</em>, every bottle passes through a multi-stage purification process before it reaches your hands.
+    </p>
+    <p>
+      We don't believe in shortcuts. We don't add artificial minerals, flavours, or preservatives. We believe the best water is water at its <em class="wt">most essential</em> — clean, balanced, and alive.
+    </p>
+    <a class="btn-ghost" href="#purity" style="margin-top:32px;display:inline-flex">
+      <span>Read the Science</span>
+    </a>
+  </div>
+</div>
+</section>
+
+<!-- ======================================================
+     FEATURES
+====================================================== -->
+<div id="features">
+  <div class="features-header">
+    <div class="sr sl">
+      <div class="section-label">Why Choose Whater</div>
+      <h2 class="section-h2">Built on<br/>Four Pillars.</h2>
+    </div>
+    <p class="sr sr2" data-delay="2">Every decision we make flows back to quality, safety, sustainability, and transparency. No exceptions.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card sr" data-delay="1">
+      <div class="feat-num">01</div>
+      <span class="feat-icon">🔬</span>
+      <div class="feat-title">Multi-Stage Filtration</div>
+      <p class="feat-desc">Advanced reverse osmosis combined with UV treatment eliminates impurities at a molecular level while preserving essential minerals for a crisp, natural taste.</p>
+    </div>
+    <div class="feat-card sr" data-delay="2">
+      <div class="feat-num">02</div>
+      <span class="feat-icon">🔒</span>
+      <div class="feat-title">Tamper-Evident Seal</div>
+      <p class="feat-desc">Food-grade PET bottles with an industry-standard tamper-evident cap. If the seal is intact, your water is pure — no questions, no compromise.</p>
+    </div>
+    <div class="feat-card sr" data-delay="3">
+      <div class="feat-num">03</div>
+      <span class="feat-icon">📋</span>
+      <div class="feat-title">FSSAI Certified</div>
+      <p class="feat-desc">Full compliance with India's Food Safety and Standards Authority requirements. Every batch tested, documented, and certified before it leaves our facility.</p>
+    </div>
+    <div class="feat-card sr" data-delay="4">
+      <div class="feat-num">04</div>
+      <span class="feat-icon">♻️</span>
+      <div class="feat-title">Eco-First Packaging</div>
+      <p class="feat-desc">100% recyclable bottles. Reduced virgin plastic usage. Our sustainability roadmap targets a net-zero packaging footprint by 2027.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     PRODUCTS
+====================================================== -->
+<section id="products">
+  <div class="products-bg"></div>
+  <div class="products-header sr">
+    <div class="section-label">Product Line</div>
+    <h2 class="section-h2">Every Size.<br/>Same Purity.</h2>
+    <p>From pocket to pantry — Whater fits your life.</p>
+  </div>
+
+  <div class="product-tabs sr" data-delay="1">
+    <button class="ptab active">All Sizes</button>
+    <button class="ptab">Still Water</button>
+    <button class="ptab">Bulk Supply</button>
+  </div>
+
+  <div class="lineup">
+    <div class="lineup-item sr" data-delay="1">
+      <img class="lineup-img" src="8704.jpg" alt="250ml" width="64"/>
+      <div class="lineup-tag">250<small style="font-size:.5em">ML</small></div>
+      <div class="lineup-name">On-the-Go</div>
+    </div>
+    <div class="lineup-item sr" data-delay="2">
+      <img class="lineup-img" src="8704.jpg" alt="500ml" width="95"/>
+      <div class="lineup-tag">500<small style="font-size:.5em">ML</small></div>
+      <div class="lineup-name">Daily Carry</div>
+    </div>
+    <div class="lineup-item featured sr" data-delay="3">
+      <div class="lineup-badge-featured">Bestseller</div>
+      <img class="lineup-img" src="8704.jpg" alt="1000ml" width="160"/>
+      <div class="lineup-tag">1000<small style="font-size:.5em">ML</small></div>
+      <div class="lineup-name">Signature</div>
+    </div>
+    <div class="lineup-item sr" data-delay="4">
+      <img class="lineup-img" src="8704.jpg" alt="2L" width="100"/>
+      <div class="lineup-tag">2<small style="font-size:.5em">L</small></div>
+      <div class="lineup-name">Family Size</div>
+    </div>
+    <div class="lineup-item sr" data-delay="5">
+      <img class="lineup-img" src="8704.jpg" alt="5L" width="72"/>
+      <div class="lineup-tag">5<small style="font-size:.5em">L</small></div>
+      <div class="lineup-name">Bulk Supply</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     PURITY / STATS
+====================================================== -->
+<div id="purity">
+  <div class="purity-inner">
+    <div class="purity-left sr sl">
+      <div class="section-label">Purity Promise</div>
+      <h2 class="section-h2">Numbers<br/>That <span>Matter.</span></h2>
+      <p>We don't just claim purity — we measure it, document it, and stand behind it. Every bottle carries data that holds us accountable.</p>
+      <p>Manufactured under FSSAI Lic. No. 00000000000000, with batch-level traceability from source to shelf.</p>
+      <div class="cert-row">
+        <div class="cert-pill">✅ FSSAI Certified</div>
+        <div class="cert-pill">🧪 Lab Tested</div>
+        <div class="cert-pill">♻️ BIS Marked</div>
+        <div class="cert-pill">💧 pH Balanced</div>
+      </div>
+    </div>
+    <div class="purity-right">
+      <div class="stat-cell sr" data-delay="1">
+        <div class="stat-n">7<span class="stat-unit">.4</span></div>
+        <div class="stat-lbl">Optimal pH</div>
+      </div>
+      <div class="stat-cell sr" data-delay="2">
+        <div class="stat-n">0<span class="stat-unit">ppm</span></div>
+        <div class="stat-lbl">Contaminants</div>
+      </div>
+      <div class="stat-cell sr" data-delay="3">
+        <div class="stat-n">6<span class="stat-unit">mo</span></div>
+        <div class="stat-lbl">Shelf Life</div>
+      </div>
+      <div class="stat-cell sr" data-delay="4">
+        <div class="stat-n">5<span class="stat-unit">★</span></div>
+        <div class="stat-lbl">Quality Rating</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     PROCESS
+====================================================== -->
+<section id="process">
+  <div class="process-header sr">
+    <div class="section-label">How We Do It</div>
+    <h2 class="section-h2">From Source<br/>to Sealed.</h2>
+  </div>
+  <div class="timeline">
+    <div class="tl-step sr" data-delay="1">
+      <div class="tl-num">01</div>
+      <div class="tl-title">Source Water</div>
+      <p class="tl-desc">Water is drawn from a verified, licensed municipal or bore source and logged for traceability.</p>
+    </div>
+    <div class="tl-step sr" data-delay="2">
+      <div class="tl-num">02</div>
+      <div class="tl-title">Pre-Filtration</div>
+      <p class="tl-desc">Sediment and carbon pre-filters remove particulates, chlorine, and organic matter.</p>
+    </div>
+    <div class="tl-step sr" data-delay="3">
+      <div class="tl-num">03</div>
+      <div class="tl-title">RO Purification</div>
+      <p class="tl-desc">Reverse osmosis membranes eliminate dissolved solids, heavy metals, and microorganisms at the molecular level.</p>
+    </div>
+    <div class="tl-step sr" data-delay="4">
+      <div class="tl-num">04</div>
+      <div class="tl-title">UV Sterilisation</div>
+      <p class="tl-desc">UV-C light neutralises any residual biological contaminants for complete microbial safety.</p>
+    </div>
+    <div class="tl-step sr" data-delay="5">
+      <div class="tl-num">05</div>
+      <div class="tl-title">Seal &amp; Ship</div>
+      <p class="tl-desc">Bottles are filled, tamper-sealed, batch-coded, and dispatched — ready to deliver pure water to you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     MANIFESTO / CTA
+====================================================== -->
+<section id="manifesto">
+  <div class="manifesto-watermark">H₂O</div>
+  <div class="manifesto-inner">
+    <p class="manifesto-label sr">Our Belief</p>
+    <h2 class="manifesto-headline sr" data-delay="1">
+      Water should<br/>be <em>perfectly</em><br/>simple.
+    </h2>
+    <p class="manifesto-body sr" data-delay="2">
+      No hype. No premium pricing on something every human being deserves. Whater exists to put clean, safe, science-backed water within reach of everyone — wherever life takes you.
+    </p>
+    <div class="manifesto-actions sr" data-delay="3">
+      <a class="btn-dark" href="#contact"><span>Get in Touch</span></a>
+      <a class="btn-outline-dark" href="#products"><span>View All Products</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================
+     CONTACT INFO
+====================================================== -->
+<div id="contact">
+  <div class="contact-cell sr">
+    <div class="contact-cell-label">Manufacturer</div>
+    <div class="contact-cell-value">
+      Furat Beverages &amp; Products<br/>
+      Plot No. 3A, Gausiya Society<br/>
+      Ring Road, Nagpur
+    </div>
+  </div>
+  <div class="contact-cell sr" data-delay="1">
+    <div class="contact-cell-label">Customer Care</div>
+    <div class="contact-cell-value">
+      <a href="tel:+917709996144">+91 77099 96144</a><br/>
+      <a href="mailto:hello@whater.in" style="font-size:16px;opacity:.6">hello@whater.in</a>
+    </div>
+  </div>
+  <div class="contact-cell sr" data-delay="2">
+    <div class="contact-cell-label">Compliance</div>
+    <div class="contact-cell-value">
+      FSSAI Lic.<br/>
+      <span style="font-size:14px;opacity:.5;font-family:'Space Mono',monospace">00000000000000</span>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+<footer>
+  <div class="footer-logo">Whater™</div>
+  <div class="footer-copy">© 2024 Furat Beverages &amp; Products, Nagpur. All rights reserved.</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<!-- ======================================================
+     JAVASCRIPT
+====================================================== -->
+<script>
+  /* ---- Cursor ---- */
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e=>{ mx=e.clientX; my=e.clientY; });
+  (function animCursor(){
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+    rx+=(mx-rx)*.13; ry+=(my-ry)*.13;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animCursor);
+  })();
+  document.querySelectorAll('a,button,.lineup-item,.feat-card,.stat-cell,.ptab').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+  });
+
+  /* ---- Nav scroll state ---- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+    // progress bar
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    document.getElementById('progress').style.width = pct+'%';
+  });
+
+  /* ---- Hero entrance ---- */
+  window.addEventListener('load',()=>{
+    document.getElementById('hero').classList.add('anim-ready');
+  });
+
+  /* ---- Mobile nav ---- */
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('mobile-drawer');
+  const overlay = document.getElementById('mobile-overlay');
+  function toggleDrawer(open){
+    hamburger.classList.toggle('open',open);
+    drawer.classList.toggle('open',open);
+    overlay.classList.toggle('open',open);
+  }
+  hamburger.addEventListener('click',()=> toggleDrawer(!drawer.classList.contains('open')));
+  overlay.addEventListener('click',()=> toggleDrawer(false));
+  document.querySelectorAll('.mob-link').forEach(l=>l.addEventListener('click',()=>toggleDrawer(false)));
+
+  /* ---- Ticker ---- */
+  const tickerItems = [
+    'Pure Packaged Drinking Water',
+    'FSSAI Certified',
+    'Multi-Stage Filtration',
+    'pH 7.4 Balanced',
+    'Tamper-Evident Seal',
+    'Made in Nagpur',
+    'Recyclable Packaging',
+    'Zero Contaminants',
+  ];
+  const track = document.getElementById('tickerTrack');
+  const html = tickerItems.map(t=>`<span class="ticker-item">${t}<span class="ticker-dot"></span></span>`).join('');
+  track.innerHTML = html+html; // duplicate for seamless loop
+
+  /* ---- Scroll reveal ---- */
+  const srEls = document.querySelectorAll('.sr');
+  const srObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+  },{threshold:0.12});
+  srEls.forEach(el=>srObs.observe(el));
+
+  /* ---- Product tabs (demo) ---- */
+  document.querySelectorAll('.ptab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  /* ---- Parallax hero bottle ---- */
+  const bottleStage = document.querySelector('.bottle-stage');
+  window.addEventListener('scroll',()=>{
+    if(bottleStage) bottleStage.style.transform=`translateY(${window.scrollY*.28}px)`;
+  });
+
+  /* ---- Smooth anchor scroll ---- */
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const target = document.querySelector(a.getAttribute('href'));
+      if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+    });
+  });
+</script>
+</body>
+</html>
